@@ -19,22 +19,11 @@
                 extend: {
                     colors: {
                         roseGold: {
-                            50: '#fdf2f4',
-                            100: '#fbe7eb',
-                            200: '#f6d3d9',
-                            300: '#f0b4be',
-                            400: '#e58797',
-                            500: '#d55f75',
-                            600: '#be415a',
-                            700: '#9f344a',
-                            800: '#852e3f',
-                            900: '#712a38',
+                            50: '#fdf2f4', 100: '#fbe7eb', 200: '#f6d3d9', 300: '#f0b4be',
+                            400: '#e58797', 500: '#d55f75', 600: '#be415a', 700: '#9f344a',
+                            800: '#852e3f', 900: '#712a38'
                         },
-                        velvet: {
-                            dark: '#0f0508',
-                            card: '#1d0b11',
-                            accent: '#d946ef'
-                        }
+                        velvet: { dark: '#0f0508', card: '#1d0b11', accent: '#d946ef' }
                     },
                     fontFamily: {
                         script: ['"Great Vibes"', 'cursive'],
@@ -53,32 +42,18 @@
             color: #fce7f3;
             overflow-x: hidden;
         }
-
         .glow-text {
             text-shadow: 0 0 15px rgba(244, 63, 94, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
         }
-
         .glow-box {
             box-shadow: 0 0 35px rgba(213, 95, 117, 0.25), inset 0 0 20px rgba(244, 63, 94, 0.1);
         }
-
         @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0.5) rotate(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            80% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(-10vh) scale(1.2) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
-
         .floating-heart {
             position: absolute;
             animation: floatUp 8s linear infinite;
@@ -86,69 +61,65 @@
             z-index: 1;
             pointer-events: none;
         }
-
-        ::-webkit-scrollbar {
-            width: 8px;
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0508; }
+        ::-webkit-scrollbar-thumb { background: #9f344a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d55f75; }
+        /* Refined spacing and restored romantic decorative symbols */
+        html { scroll-padding-top: 90px; }
+        section[id] { scroll-margin-top: 90px; }
+        #mainContent section { isolation: isolate; }
+        #mainContent section:not(:first-child) { padding-top: clamp(5rem, 9vw, 8rem); padding-bottom: clamp(5rem, 9vw, 8rem); }
+        #mainContent section h2 { line-height: 1.35; letter-spacing: .025em; }
+        #mainContent section p { overflow-wrap: anywhere; }
+        #gallerySection .glow-box, #letterSection > div > div:last-child { margin-top: 1.5rem; }
+        .romantic-divider { display:flex; align-items:center; justify-content:center; gap:1rem; margin:2rem auto 0; color:#e58797; font-size:1rem; }
+        .romantic-divider::before, .romantic-divider::after { content:""; height:1px; width:min(16vw,90px); background:linear-gradient(90deg,transparent,#d55f75); }
+        .romantic-divider::after { transform:rotate(180deg); }
+        #imageContainer { min-height: 300px; }
+        #imageContainer img { display:block; }
+        #typoToggleBtn { gap:.5rem; justify-content:center; }
+        @media(max-width:640px) {
+            header { padding: .85rem 1rem !important; gap:.6rem; }
+            header h2 { font-size:.72rem !important; }
+            header p { font-size:.63rem !important; }
+            #audioToggle { padding:.65rem .8rem; white-space:nowrap; }
+            #mainContent section:first-child { padding-top:8rem; padding-bottom:5rem; }
+            #mainContent section:not(:first-child) { padding-top:4.5rem; padding-bottom:4.5rem; }
+            #gallerySection .flex.justify-between.items-center.mb-6 { flex-wrap:wrap; gap:1rem; }
+            #typoToggleBtn { width:100%; padding:.7rem 1rem; }
+            #letterSection .relative.bg-gradient-to-b { padding:2.5rem 1.5rem; }
+            #letterSection .absolute.-top-6 { right:1.25rem; }
         }
-        ::-webkit-scrollbar-track {
-            background: #0f0508;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #9f344a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #d55f75;
-        }
+        @media(prefers-reduced-motion:reduce) { .floating-heart { animation-duration: 1ms !important; } }
     </style>
 </head>
 <body class="relative min-h-screen selection:bg-rose-500 selection:text-white">
-
     <!-- Background Particle Canvas -->
     <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
-
     <!-- Floating Background Hearts Container -->
     <div id="heartsContainer" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div>
 
     <!-- ================= LOCKED SCREEN / COUNTDOWN & PIN ================= -->
     <div id="lockScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-velvet-dark/98 backdrop-blur-2xl transition-all duration-1000 p-4">
         <div class="relative max-w-lg w-full bg-gradient-to-b from-[#2a1018] to-[#16070c] p-8 sm:p-10 rounded-3xl border border-rose-500/30 glow-box text-center shadow-2xl">
-            <!-- Glowing auras -->
             <div class="absolute -top-20 -left-20 w-40 h-40 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
             <div class="relative z-10">
                 <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/30 animate-pulse">
                     <i class="fa-solid fa-lock text-3xl text-white"></i>
                 </div>
-
                 <span class="text-xs uppercase tracking-[0.3em] text-rose-300 font-semibold mb-2 block">Secure Surprise Vault</span>
                 <h1 class="font-serif text-2xl sm:text-3xl font-bold text-white mb-2 tracking-wide">For My Love, <span class="font-script text-rose-400 text-4xl block mt-1">Progna</span></h1>
                 <p class="text-rose-200/80 text-xs sm:text-sm mb-6 leading-relaxed">
                     This surprise unlocks automatically on <strong class="text-white">Nov 16, 2026, at 11:59 PM</strong>, or enter your secret PIN to unlock instantly!
                 </p>
-
-                <!-- Countdown Timer Display -->
                 <div class="grid grid-cols-4 gap-2 mb-8 bg-black/40 p-4 rounded-2xl border border-rose-500/20">
-                    <div class="text-center">
-                        <span id="days" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span>
-                        <span class="text-[10px] uppercase tracking-wider text-rose-300/70">Days</span>
-                    </div>
-                    <div class="text-center">
-                        <span id="hours" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span>
-                        <span class="text-[10px] uppercase tracking-wider text-rose-300/70">Hours</span>
-                    </div>
-                    <div class="text-center">
-                        <span id="minutes" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span>
-                        <span class="text-[10px] uppercase tracking-wider text-rose-300/70">Mins</span>
-                    </div>
-                    <div class="text-center">
-                        <span id="seconds" class="font-serif text-2xl sm:text-3xl font-bold text-white block text-rose-400 animate-pulse">00</span>
-                        <span class="text-[10px] uppercase tracking-wider text-rose-300/70">Secs</span>
-                    </div>
+                    <div class="text-center"><span id="days" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span><span class="text-[10px] uppercase tracking-wider text-rose-300/70">Days</span></div>
+                    <div class="text-center"><span id="hours" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span><span class="text-[10px] uppercase tracking-wider text-rose-300/70">Hours</span></div>
+                    <div class="text-center"><span id="minutes" class="font-serif text-2xl sm:text-3xl font-bold text-white block">00</span><span class="text-[10px] uppercase tracking-wider text-rose-300/70">Mins</span></div>
+                    <div class="text-center"><span id="seconds" class="font-serif text-2xl sm:text-3xl font-bold text-white block text-rose-400 animate-pulse">00</span><span class="text-[10px] uppercase tracking-wider text-rose-300/70">Secs</span></div>
                 </div>
-
-                <!-- PIN Unlock Form -->
                 <div class="space-y-4">
                     <div class="relative">
                         <input type="password" id="pinInput" placeholder="Enter Secret PIN" autocomplete="off" class="w-full bg-black/60 border border-rose-500/40 rounded-full px-6 py-3.5 text-center font-serif text-sm text-rose-100 placeholder-rose-400/50 focus:outline-none focus:border-rose-500 transition-all shadow-inner">
@@ -164,8 +135,6 @@
 
     <!-- ================= MAIN UNLOCKED WEBSITE CONTENT ================= -->
     <div id="mainContent" class="opacity-0 transition-opacity duration-1000 relative z-10 hidden">
-
-        <!-- Top Navigation / Audio Toggle Bar -->
         <header class="fixed top-0 left-0 right-0 z-40 bg-velvet-dark/85 backdrop-blur-md border-b border-rose-900/40 px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-full bg-rose-600/20 border border-rose-500/40 flex items-center justify-center text-rose-400 font-serif font-bold text-lg">P</div>
@@ -174,7 +143,6 @@
                     <p class="text-xs text-rose-300/70">Forever & Always Yours — Rayhan</p>
                 </div>
             </div>
-
             <div class="flex items-center space-x-3">
                 <button id="audioToggle" onclick="toggleBackgroundMusic()" class="flex items-center space-x-2 bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/40 text-rose-200 px-4 py-2 rounded-full text-xs font-medium transition-all shadow-sm">
                     <i id="audioIcon" class="fa-solid fa-music text-rose-400"></i>
@@ -183,168 +151,125 @@
             </div>
         </header>
 
-        <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
             <div class="max-w-5xl mx-auto text-center relative z-10">
-                <span class="inline-block py-1.5 px-6 rounded-full bg-rose-950/80 border border-rose-500/40 text-rose-300 font-serif text-sm tracking-widest mb-6 shadow-inner animate-pulse">
-                    ✨ Vault Unlocked: Happy Birthday My Love ✨
-                </span>
-                
+                <span class="inline-block py-1.5 px-6 rounded-full bg-rose-950/80 border border-rose-500/40 text-rose-300 font-serif text-sm tracking-widest mb-6 shadow-inner animate-pulse">✨ Vault Unlocked: Happy Birthday My Love ✨</span>
                 <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white mb-6 leading-tight">
                     Happy Birthday <br>
                     <span class="font-script text-rose-400 text-6xl sm:text-8xl md:text-9xl drop-shadow-[0_10px_20px_rgba(229,135,151,0.4)] block mt-2">My Love Progna</span>
                 </h1>
-
-                <p class="max-w-2xl mx-auto text-rose-100/90 text-base sm:text-lg font-light leading-relaxed mb-10">
-                    Even though miles stretch between us right now, my soul is wrapped tightly around yours today. Every heartbeat of mine sings your name.
-                </p>
-
+                <p class="max-w-2xl mx-auto text-rose-100/90 text-base sm:text-lg font-light leading-relaxed mb-10">Even though miles stretch between us right now, my soul is wrapped tightly around yours today. Every heartbeat of mine sings your name.</p>
                 <div class="flex flex-wrap justify-center gap-4">
-                    <a href="#letterSection" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-rose-600 to-pink-600 text-white font-medium shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 transition-all transform hover:-translate-y-0.5">
-                        <i class="fa-solid fa-envelope mr-2"></i> Read My Letter
-                    </a>
-                    <a href="#gallerySection" class="px-8 py-3.5 rounded-full bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/40 text-rose-200 font-medium transition-all">
-                        <i class="fa-solid fa-heart mr-2"></i> Our Memories & You
-                    </a>
+                    <a href="#letterSection" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-rose-600 to-pink-600 text-white font-medium shadow-lg shadow-rose-600/30 hover:shadow-rose-600/50 transition-all transform hover:-translate-y-0.5"><i class="fa-solid fa-envelope mr-2"></i> Read My Letter</a>
+                    <a href="#gallerySection" class="px-8 py-3.5 rounded-full bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/40 text-rose-200 font-medium transition-all"><i class="fa-solid fa-heart mr-2"></i> Our Memories & You</a>
+                    <a href="#videoSection" class="px-8 py-3.5 rounded-full bg-rose-950/60 hover:bg-rose-900/80 border border-rose-500/40 text-rose-200 font-medium transition-all"><i class="fa-solid fa-circle-play mr-2"></i> Play This Song</a>
                 </div>
             </div>
-
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-rose-400/60">
-                <i class="fa-solid fa-chevron-down text-xl"></i>
-            </div>
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-rose-400/60"><i class="fa-solid fa-chevron-down text-xl"></i></div>
         </section>
 
-        <!-- Image & Typography Showcase Section -->
         <section id="gallerySection" class="py-20 px-4 relative">
-            <div class="max-w-4xl mx-auto">
+            <div class="max-w-4xl mx-auto px-1 sm:px-3">
                 <div class="text-center mb-12">
                     <span class="text-rose-400 uppercase tracking-widest text-xs font-semibold">Breathtaking Beauty</span>
                     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">The Light of My Life</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent mx-auto mt-4"></div>
+                    <div class="romantic-divider" aria-hidden="true">♥ ✦ ♥</div>
                 </div>
-
                 <div class="relative bg-gradient-to-b from-[#220d14] to-[#16070c] p-4 sm:p-8 rounded-3xl border border-rose-500/30 glow-box shadow-2xl">
                     <div class="flex justify-between items-center mb-6 px-2">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-rose-400"></i>
-                            <span class="text-xs uppercase tracking-wider text-rose-300 font-semibold">Interactive Frame</span>
-                        </div>
-                        <button onclick="toggleTypographyMode()" id="typoToggleBtn" class="text-xs bg-rose-900/60 hover:bg-rose-800 text-rose-200 px-4 py-2 rounded-full border border-rose-500/30 transition-all flex items-center space-x-2">
-                            <i class="fa-solid fa-font"></i>
-                            <span>Toggle Poetic Typography Mode</span>
-                        </button>
+                        <div class="flex items-center space-x-2"><i class="fa-solid fa-wand-magic-sparkles text-rose-400"></i><span class="text-xs uppercase tracking-wider text-rose-300 font-semibold">Interactive Frame</span></div>
+                        <button onclick="toggleTypographyMode()" id="typoToggleBtn" class="text-xs bg-rose-900/60 hover:bg-rose-800 text-rose-200 px-4 py-2 rounded-full border border-rose-500/30 transition-all flex items-center space-x-2"><i class="fa-solid fa-font"></i><span>Toggle Poetic Typography Mode</span></button>
                     </div>
-
                     <div id="imageContainer" class="relative rounded-2xl overflow-hidden border border-rose-500/30 group aspect-[4/5] sm:aspect-[16/10] max-h-[600px] flex items-center justify-center bg-black/40">
-                        <!-- User Photo img.jpg -->
-                        <img src="img.jpg" alt="Progna" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/800x600/220d14/fce7f3?text=Progna+-+My+Love';">
-                        
+                        <!-- Updated direct ImgBB image URL; everything else is unchanged. -->
+                        <img src="https://i.ibb.co.com/jPP6kg62/img.jpg" alt="My Love Progna" loading="eager" decoding="async" referrerpolicy="no-referrer" class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/800x600/220d14/fce7f3?text=Progna+-+My+Love';">
                         <div id="typographyOverlay" class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 sm:p-10 flex flex-col justify-end opacity-0 transition-opacity duration-500 pointer-events-none">
                             <p class="font-script text-3xl sm:text-5xl text-rose-300 mb-2 glow-text">"Before you, my heart was merely a machine..."</p>
-                            <p class="text-xs sm:text-sm text-rose-100/90 font-serif leading-relaxed">
-                                Pulse without purpose. Now, it is a garden in bloom. My soul no longer just exists—it smiles, it plays, and it dances in the light of us.
-                            </p>
+                            <p class="text-xs sm:text-sm text-rose-100/90 font-serif leading-relaxed">Pulse without purpose. Now, it is a garden in bloom. My soul no longer just exists—it smiles, it plays, and it dances in the light of us.</p>
                             <span class="text-[10px] text-amber-400/80 tracking-widest mt-2 uppercase">— Rayhan Ahmed (Wolf King X)</span>
                         </div>
                     </div>
+                    <div class="mt-6 text-center"><p class="text-rose-200/90 font-serif italic text-sm sm:text-base">"Whenever I look at you, I see my entire future, my peace, and my greatest blessing."</p></div>
+                </div>
+            </div>
+        </section>
 
-                    <div class="mt-6 text-center">
-                        <p class="text-rose-200/90 font-serif italic text-sm sm:text-base">
-                            "Whenever I look at you, I see my entire future, my peace, and my greatest blessing."
-                        </p>
+
+        <!-- Dedicated birthday video: playback starts only after a visitor taps Play. -->
+        <section id="videoSection" class="py-20 px-4 relative scroll-mt-24">
+            <div class="max-w-4xl mx-auto px-1 sm:px-3">
+                <div class="text-center mb-10">
+                    <span class="text-rose-400 uppercase tracking-widest text-xs font-semibold">A Special Moment For You</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-3">What I Want to Express Is in This Song <span aria-hidden="true">♥</span></h2>
+                    <p class="text-rose-200/75 text-sm sm:text-base mt-4">Some feelings are hard to put into words. This song says what my heart wants you to know. Press play, my love. ❤️</p>
+                    <div class="romantic-divider" aria-hidden="true">♥ ✦ ♥</div>
+                </div>
+                <div class="rounded-3xl border border-rose-500/30 bg-gradient-to-b from-[#220d14] to-[#16070c] p-4 sm:p-8 glow-box shadow-2xl">
+                    <div class="relative aspect-video rounded-2xl overflow-hidden bg-black border border-rose-500/20" id="videoPlayerContainer">
+                        <div id="videoPoster" class="absolute inset-0 flex flex-col items-center justify-center gap-5 px-5 text-center bg-gradient-to-br from-[#391321] via-[#18070d] to-[#4c2030]">
+                            <div class="text-rose-300/70 text-3xl" aria-hidden="true">♥ ✦ ♥</div>
+                            <button type="button" onclick="playBirthdayVideo()" class="w-20 h-20 rounded-full bg-gradient-to-r from-rose-600 to-pink-600 text-white shadow-lg shadow-rose-600/40 hover:scale-110 transition-transform" aria-label="Play the song"><i class="fa-solid fa-play text-2xl ml-1"></i></button>
+                            <p class="font-script text-3xl sm:text-5xl text-rose-300">For You, Progna</p>
+                        </div>
+                        <iframe id="birthdayVideo" class="absolute inset-0 w-full h-full hidden" title="A song expressing my feelings for Progna" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="flex flex-wrap justify-center items-center gap-3 mt-6">
+                        <button type="button" id="videoPlayButton" onclick="playBirthdayVideo()" class="px-6 py-3 rounded-full bg-gradient-to-r from-rose-600 to-pink-600 text-white text-sm font-semibold"><i class="fa-solid fa-circle-play mr-2"></i> Play the Song</button>
+                        <button type="button" onclick="stopBirthdayVideo()" class="px-6 py-3 rounded-full border border-rose-500/40 bg-rose-950/50 text-rose-200 text-sm font-semibold"><i class="fa-solid fa-stop mr-2"></i> Stop the Song</button>
+                        <a href="https://youtu.be/3qStEVyUrwc" target="_blank" rel="noopener noreferrer" class="px-6 py-3 rounded-full border border-rose-500/40 text-rose-200 text-sm font-semibold"><i class="fa-brands fa-youtube mr-2"></i> Open on YouTube</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Love Letter Section -->
         <section id="letterSection" class="py-20 px-4 relative">
             <div class="max-w-3xl mx-auto">
                 <div class="text-center mb-12">
                     <span class="text-rose-400 uppercase tracking-widest text-xs font-semibold">From The Depths of My Heart</span>
                     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">A Letter To My Queen</h2>
-                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent mx-auto mt-4"></div>
+                    <div class="romantic-divider" aria-hidden="true">♥ ✦ ♥</div>
                 </div>
-
                 <div class="relative bg-gradient-to-b from-[#fefae0] to-[#faedcd] text-[#3a2e2b] p-8 sm:p-14 rounded-2xl shadow-2xl border-4 border-[#dda15e]/50 transform rotate-[-0.5deg]">
-                    <div class="absolute -top-6 right-10 w-16 h-16 bg-rose-700 rounded-full flex items-center justify-center border-4 border-rose-900 shadow-xl text-amber-200 font-serif font-bold text-xl tracking-tighter">
-                        P♥R
-                    </div>
-
-                    <div class="font-serif text-xs uppercase tracking-widest text-rose-800 mb-6 font-semibold">
-                        To My Dearest Progna,
-                    </div>
-
+                    <div class="absolute -top-6 right-10 w-16 h-16 bg-rose-700 rounded-full flex items-center justify-center border-4 border-rose-900 shadow-xl text-amber-200 font-serif font-bold text-xl tracking-tighter">P♥R</div>
+                    <div class="font-serif text-xs uppercase tracking-widest text-rose-800 mb-6 font-semibold">To My Dearest Progna,</div>
                     <div class="space-y-4 font-serif text-base sm:text-lg leading-relaxed text-[#4a3b38]">
-                        <p class="first-letter:text-4xl first-letter:font-script first-letter:text-rose-700 first-letter:float-left first-letter:mr-3">
-                            Happy Birthday, My Love Progna!
-                        </p>
-                        <p>
-                            You always stay with me at my ups and downs, being my unwavering strength, my safe harbor, and my brightest light. Through every storm and every triumph, your presence has been my sanctuary.
-                        </p>
-                        <p>
-                            Even though we can't meet physically right now, my heart is right beside you, celebrating every single heartbeat of your life. Distance is just a number when two souls are as deeply intertwined as ours.
-                        </p>
+                        <p class="first-letter:text-4xl first-letter:font-script first-letter:text-rose-700 first-letter:float-left first-letter:mr-3">Happy Birthday, My Love Progna!</p>
+                        <p>You always stay with me at my ups and downs, being my unwavering strength, my safe harbor, and my brightest light. Through every storm and every triumph, your presence has been my sanctuary.</p>
+                        <p>Even though we can't meet physically right now, my heart is right beside you, celebrating every single heartbeat of your life. Distance is just a number when two souls are as deeply intertwined as ours.</p>
                     </div>
-
                     <div class="my-8 p-6 bg-[#f4e2bb]/60 border-l-4 border-rose-700 rounded-r-xl italic font-serif text-sm sm:text-base text-[#5c4033]">
                         "Before you, my heart was merely a machine, pulse without purpose. Now, it is a garden in bloom. My soul no longer just exists—it smiles, it plays, and it dances in the light of us."
                         <div class="text-right text-xs not-italic mt-2 font-semibold text-rose-800">— Rayhan Ahmed (Wolf King X)</div>
                     </div>
-
                     <div class="mt-8 pt-6 border-t border-[#dda15e]/40 flex justify-between items-center">
-                        <div>
-                            <p class="text-xs text-[#7f5539] uppercase tracking-wider">With all my love,</p>
-                            <p class="font-script text-3xl sm:text-4xl text-rose-800 mt-1">Rayhan Ahmed</p>
-                        </div>
-                        <div class="text-rose-700 text-2xl animate-pulse">
-                            <i class="fa-solid fa-heart"></i>
-                        </div>
+                        <div><p class="text-xs text-[#7f5539] uppercase tracking-wider">With all my love,</p><p class="font-script text-3xl sm:text-4xl text-rose-800 mt-1">Rayhan Ahmed</p></div>
+                        <div class="text-rose-700 text-2xl animate-pulse"><i class="fa-solid fa-heart"></i></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Interactive Memory / Love Notes Section -->
         <section class="py-20 px-4 relative">
-            <div class="max-w-4xl mx-auto">
+            <div class="max-w-4xl mx-auto px-1 sm:px-3">
                 <div class="text-center mb-12">
                     <span class="text-rose-400 uppercase tracking-widest text-xs font-semibold">Click To Reveal</span>
                     <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-2">Little Secrets & Wishes For You</h2>
                     <p class="text-rose-200/70 text-sm mt-2">Tap each card below to unlock a sweet note written just for you.</p>
-                    <div class="w-24 h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent mx-auto mt-4"></div>
+                    <div class="romantic-divider" aria-hidden="true">♥ ✦ ♥</div>
                 </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-7">
                     <div onclick="revealNote(this, 'Your smile is the absolute highlight of my universe. Whenever you laugh, my whole world lights up.')" class="cursor-pointer bg-gradient-to-br from-[#220d14] to-[#16070c] p-6 rounded-2xl border border-rose-500/30 hover:border-rose-500 transition-all duration-300 transform hover:-translate-y-1 glow-box group">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="w-10 h-10 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400">
-                                <i class="fa-solid fa-sun"></i>
-                            </div>
-                            <span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span>
-                        </div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-10 h-10 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400"><i class="fa-solid fa-sun"></i></div><span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span></div>
                         <h3 class="font-serif font-bold text-white text-lg mb-2">Your Smile</h3>
                         <p class="text-rose-200/70 text-xs note-content line-clamp-2">Click to discover why your smile means everything to me...</p>
                     </div>
-
                     <div onclick="revealNote(this, 'No matter how far apart we are, I feel your hand in mine every time I close my eyes. You are my home.')" class="cursor-pointer bg-gradient-to-br from-[#220d14] to-[#16070c] p-6 rounded-2xl border border-rose-500/30 hover:border-rose-500 transition-all duration-300 transform hover:-translate-y-1 glow-box group">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="w-10 h-10 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400">
-                                <i class="fa-solid fa-house-chimney-heart"></i>
-                            </div>
-                            <span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span>
-                        </div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-12 h-12 rounded-full overflow-hidden border-2 border-rose-400 shadow-lg shadow-rose-500/30 flex-shrink-0"><img src="https://i.ibb.co.com/jPP6kg62/img.jpg" alt="My Safe Haven - Progna ❤️" class="w-full h-full object-cover object-center" loading="lazy" referrerpolicy="no-referrer"></div><span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span></div>
                         <h3 class="font-serif font-bold text-white text-lg mb-2">My Safe Haven</h3>
                         <p class="text-rose-200/70 text-xs note-content line-clamp-2">Click to read about how you make everywhere feel like home...</p>
                     </div>
-
                     <div onclick="revealNote(this, 'I am counting down the exact second I can finally hold you close and celebrate you in person. Until then, you hold my entire heart.')" class="cursor-pointer bg-gradient-to-br from-[#220d14] to-[#16070c] p-6 rounded-2xl border border-rose-500/30 hover:border-rose-500 transition-all duration-300 transform hover:-translate-y-1 glow-box group">
-                        <div class="flex justify-between items-center mb-4">
-                            <div class="w-10 h-10 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400">
-                                <i class="fa-solid fa-hourglass-half"></i>
-                            </div>
-                            <span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span>
-                        </div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-10 h-10 rounded-full bg-rose-600/20 flex items-center justify-center text-rose-400"><i class="fa-solid fa-hourglass-half"></i></div><span class="text-xs text-rose-400/60 group-hover:text-rose-400">Tap to open</span></div>
                         <h3 class="font-serif font-bold text-white text-lg mb-2">Counting Days</h3>
                         <p class="text-rose-200/70 text-xs note-content line-clamp-2">Click to see what I look forward to the most...</p>
                     </div>
@@ -352,55 +277,39 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="py-12 border-t border-rose-900/40 text-center relative z-10 bg-velvet-dark">
             <div class="max-w-xl mx-auto px-4">
                 <h3 class="font-script text-4xl text-rose-400 mb-3">Happy Birthday, Progna</h3>
                 <p class="text-xs text-rose-200/60 tracking-widest uppercase mb-6">Made with infinite love by Rayhan Ahmed (Wolf King X)</p>
-                <div class="flex justify-center space-x-4 text-rose-400 text-lg">
-                    <i class="fa-solid fa-heart animate-pulse"></i>
-                    <i class="fa-solid fa-star animate-pulse" style="animation-delay: 0.3s"></i>
-                    <i class="fa-solid fa-infinity animate-pulse" style="animation-delay: 0.6s"></i>
-                </div>
+                <div class="flex justify-center space-x-4 text-rose-400 text-lg"><i class="fa-solid fa-heart animate-pulse"></i><i class="fa-solid fa-star animate-pulse" style="animation-delay: 0.3s"></i><i class="fa-solid fa-infinity animate-pulse" style="animation-delay: 0.6s"></i></div>
             </div>
         </footer>
-
     </div>
 
-    <!-- JavaScript Application Logic -->
     <script>
         // --- 1. Target Time Setup (November 16, 2026, 11:59 PM) ---
         const targetDate = new Date('2026-11-16T23:59:00').getTime();
         let isUnlocked = false;
-
         function checkUnlockStatus() {
             const now = new Date().getTime();
             const distance = targetDate - now;
-
             if (distance <= 0) {
-                // Auto-unlock if target time has passed
-                if (!isUnlocked) {
-                    unlockSurprise(true);
-                }
+                if (!isUnlocked) unlockSurprise(true);
                 document.getElementById('days').innerText = '00';
                 document.getElementById('hours').innerText = '00';
                 document.getElementById('minutes').innerText = '00';
                 document.getElementById('seconds').innerText = '00';
                 return;
             }
-
-            // Calculate countdown units
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
             document.getElementById('days').innerText = String(days).padStart(2, '0');
             document.getElementById('hours').innerText = String(hours).padStart(2, '0');
             document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
             document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }
-
         setInterval(checkUnlockStatus, 1000);
         checkUnlockStatus();
 
@@ -408,71 +317,45 @@
         function verifyPin() {
             const pinVal = document.getElementById('pinInput').value.trim().toUpperCase();
             const errorEl = document.getElementById('pinError');
-
             if (pinVal === 'ILOVEYOU') {
                 unlockSurprise(false);
             } else {
                 errorEl.style.opacity = '1';
                 document.getElementById('pinInput').classList.add('border-rose-500', 'animate-bounce');
-                setTimeout(() => {
-                    document.getElementById('pinInput').classList.remove('animate-bounce');
-                }, 500);
+                setTimeout(() => document.getElementById('pinInput').classList.remove('animate-bounce'), 500);
             }
         }
-
-        // Allow pressing Enter key for PIN
         document.getElementById('pinInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                verifyPin();
-            }
+            if (e.key === 'Enter') verifyPin();
         });
 
         // --- 3. Unlock Transition ---
         function unlockSurprise(isAuto) {
             if (isUnlocked) return;
             isUnlocked = true;
-
-            confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.5 },
-                colors: ['#f43f5e', '#ec4899', '#fbbf24', '#ffffff']
-            });
-
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 }, colors: ['#f43f5e', '#ec4899', '#fbbf24', '#ffffff'] });
             const lockScreen = document.getElementById('lockScreen');
             lockScreen.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                lockScreen.style.display = 'none';
-            }, 1000);
-
+            setTimeout(() => { lockScreen.style.display = 'none'; }, 1000);
             const mainContent = document.getElementById('mainContent');
             mainContent.classList.remove('hidden');
-            setTimeout(() => {
-                mainContent.classList.remove('opacity-0');
-            }, 50);
-
+            setTimeout(() => { mainContent.classList.remove('opacity-0'); }, 50);
             startMelody();
         }
 
         // --- 4. Background Particle Canvas Simulation ---
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
-
         let width, height;
         let particles = [];
-
         function resizeCanvas() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
         }
-
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
-
         class Particle {
-            constructor() {
-                this.reset();
-            }
+            constructor() { this.reset(); }
             reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
@@ -500,17 +383,10 @@
                 ctx.restore();
             }
         }
-
-        for (let i = 0; i < 75; i++) {
-            particles.push(new Particle());
-        }
-
+        for (let i = 0; i < 75; i++) particles.push(new Particle());
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
@@ -518,7 +394,6 @@
         // --- 5. Floating Hearts Generator ---
         const heartsContainer = document.getElementById('heartsContainer');
         const heartIcons = ['fa-heart', 'fa-sparkles', 'fa-star'];
-
         function createFloatingHeart() {
             if (document.hidden) return;
             const heart = document.createElement('div');
@@ -527,67 +402,46 @@
             const size = Math.random() * 20 + 12;
             const left = Math.random() * 100;
             const duration = Math.random() * 5 + 6;
-
             heart.innerHTML = `<i class="fa-solid ${icon}"></i>`;
             heart.style.left = `${left}%`;
             heart.style.fontSize = `${size}px`;
             heart.style.animationDuration = `${duration}s`;
-
             heartsContainer.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
+            setTimeout(() => heart.remove(), duration * 1000);
         }
-
         setInterval(createFloatingHeart, 400);
 
         // --- 6. Web Audio API Synthesizer (Romantic Music Box Melody) ---
         let audioCtx = null;
         let isPlaying = false;
         let melodyInterval = null;
-
         const notes = [261.63, 329.63, 392.00, 523.25, 587.33, 659.25, 783.99];
-
         function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
         }
-
         function playTone(freq, duration = 0.8) {
             if (!audioCtx) return;
             try {
                 const osc = audioCtx.createOscillator();
                 const gainNode = audioCtx.createGain();
-
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
                 gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
                 gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.1);
                 gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
                 osc.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
-
                 osc.start();
                 osc.stop(audioCtx.currentTime + duration);
-            } catch (e) {
-                console.error(e);
-            }
+            } catch (e) { console.error(e); }
         }
-
         function startMelody() {
             initAudio();
             if (isPlaying) return;
             isPlaying = true;
             document.getElementById('audioText').innerText = 'Playing Melody';
             document.getElementById('audioIcon').className = 'fa-solid fa-volume-high text-rose-400 animate-pulse';
-
             let step = 0;
             const sequence = [0, 2, 4, 3, 5, 4, 3, 1, 0, 2, 5, 6, 4, 2, 1];
             melodyInterval = setInterval(() => {
@@ -595,20 +449,33 @@
                 step = (step + 1) % sequence.length;
             }, 700);
         }
-
         function stopMelody() {
             isPlaying = false;
             if (melodyInterval) clearInterval(melodyInterval);
             document.getElementById('audioText').innerText = 'Play Melody';
             document.getElementById('audioIcon').className = 'fa-solid fa-music text-rose-400';
         }
-
         function toggleBackgroundMusic() {
-            if (isPlaying) {
-                stopMelody();
-            } else {
-                startMelody();
-            }
+            if (isPlaying) stopMelody();
+            else startMelody();
+        }
+
+
+        // Birthday YouTube player: pause the site's synthesized melody while watching.
+        function playBirthdayVideo() {
+            stopMelody();
+            const player = document.getElementById('birthdayVideo');
+            player.src = 'https://www.youtube.com/embed/3qStEVyUrwc?autoplay=1&playsinline=1&rel=0';
+            player.classList.remove('hidden');
+            document.getElementById('videoPoster').classList.add('hidden');
+            document.getElementById('videoPlayButton').innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> Replay the Song';
+        }
+        function stopBirthdayVideo() {
+            const player = document.getElementById('birthdayVideo');
+            player.src = '';
+            player.classList.add('hidden');
+            document.getElementById('videoPoster').classList.remove('hidden');
+            document.getElementById('videoPlayButton').innerHTML = '<i class="fa-solid fa-circle-play mr-2"></i> Play the Song';
         }
 
         // --- 7. Typography Mode Toggle ---
@@ -617,7 +484,6 @@
             typoMode = !typoMode;
             const overlay = document.getElementById('typographyOverlay');
             const btn = document.getElementById('typoToggleBtn');
-
             if (typoMode) {
                 overlay.classList.remove('opacity-0');
                 overlay.classList.add('opacity-100', 'pointer-events-auto');
@@ -637,14 +503,8 @@
             contentEl.innerText = message;
             contentEl.classList.remove('line-clamp-2');
             contentEl.classList.add('text-rose-100', 'font-medium', 'mt-1', 'transition-all', 'duration-300');
-            
-            confetti({
-                particleCount: 25,
-                spread: 40,
-                origin: { y: 0.8 },
-                colors: ['#f43f5e', '#fbbf24']
-            });
+            confetti({ particleCount: 25, spread: 40, origin: { y: 0.8 }, colors: ['#f43f5e', '#fbbf24'] });
         }
     </script>
 </body>
-    </html>
+        </html>
